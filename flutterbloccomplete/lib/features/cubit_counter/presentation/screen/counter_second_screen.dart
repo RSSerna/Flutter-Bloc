@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counter/counter_cubit.dart';
 
-class CubitCounterScreen extends StatelessWidget {
+class CubitCounterSecondScreen extends StatelessWidget {
   final String title;
   final Color colorAppbar;
 
-  const CubitCounterScreen(
+  const CubitCounterSecondScreen(
       {super.key, required this.title, required this.colorAppbar});
 
   @override
@@ -78,8 +78,7 @@ class CubitCounterScreen extends StatelessWidget {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    // BlocProvider.of<CounterCubit>(context).increment();
-                    context.read<CounterCubit>().increment();
+                    BlocProvider.of<CounterCubit>(context).increment();
                   },
                   tooltip: 'Increment',
                   heroTag: "$title increment",

@@ -14,6 +14,7 @@ class InjectionContainerImpl implements InjectionContainer {
   Future<void> init() async {
     sl.registerFactory(() => CounterCubit());
     sl.registerFactory(() => CounterEquatableCubit());
-    sl.registerFactory(() => CounterWithOutStateCubit());
+    // sl.registerFactory(() => CounterWithOutStateCubit());
+    sl.registerSingleton(CounterWithOutStateCubit());
   }
 }

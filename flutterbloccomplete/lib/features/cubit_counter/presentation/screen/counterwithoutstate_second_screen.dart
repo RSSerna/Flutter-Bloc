@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counter/counter_cubit.dart';
+import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterwithoutstate/counterwithoutstate_cubit.dart';
 
-class CubitCounterScreen extends StatelessWidget {
+class CubitCounterWithOurStateSecondScreen extends StatelessWidget {
   final String title;
   final Color colorAppbar;
 
-  const CubitCounterScreen(
+  const CubitCounterWithOurStateSecondScreen(
       {super.key, required this.title, required this.colorAppbar});
 
   @override
@@ -23,43 +23,47 @@ class CubitCounterScreen extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocConsumer<CounterCubit, CounterState>(
-              listener: (context, state) {
-                if (state is CounterIncrementedState) {
+            BlocConsumer<CounterWithOutStateCubit, int>(
+              listenWhen: (previous, current) {
+                if (previous < current) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Incremented!'),
                       duration: Duration(milliseconds: 300),
                     ),
                   );
-                } else if (state is CounterDecrementedState) {
+                  return true;
+                } else if (previous > current) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Decremented!'),
                       duration: Duration(milliseconds: 300),
                     ),
                   );
+                  return true;
                 }
+                return false;
               },
+              listener: (context, state) {},
               builder: (context, state) {
-                if (state.counterValue < 0) {
+                if (state < 0) {
                   return Text(
-                    'NEGATIVE ${state.counterValue}',
+                    'NEGATIVE $state',
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
-                } else if (state.counterValue % 2 == 0) {
+                } else if (state % 2 == 0) {
                   return Text(
-                    'EVEN ${state.counterValue}',
+                    'EVEN $state',
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
-                } else if (state.counterValue == 5) {
+                } else if (state == 5) {
                   return Text(
                     'NUMBER 5',
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
                 } else {
                   return Text(
-                    state.counterValue.toString(),
+                    state.toString(),
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
                 }
@@ -70,7 +74,7 @@ class CubitCounterScreen extends StatelessWidget {
               children: [
                 FloatingActionButton(
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
+                    BlocProvider.of<CounterWithOutStateCubit>(context).decrement();
                   },
                   tooltip: 'Decrement',
                   heroTag: "$title decrement",
@@ -78,8 +82,7 @@ class CubitCounterScreen extends StatelessWidget {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    // BlocProvider.of<CounterCubit>(context).increment();
-                    context.read<CounterCubit>().increment();
+                    BlocProvider.of<CounterWithOutStateCubit>(context).increment();
                   },
                   tooltip: 'Increment',
                   heroTag: "$title increment",

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counter/counter_cubit.dart';
+import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterequatable/counterequatable_cubit.dart';
 
-class CubitCounterScreen extends StatelessWidget {
+class CubitCounterEquatableSecondScreen extends StatelessWidget {
   final String title;
   final Color colorAppbar;
 
-  const CubitCounterScreen(
+  const CubitCounterEquatableSecondScreen(
       {super.key, required this.title, required this.colorAppbar});
 
   @override
@@ -23,16 +23,16 @@ class CubitCounterScreen extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocConsumer<CounterCubit, CounterState>(
+            BlocConsumer<CounterEquatableCubit, CounterEquatableState>(
               listener: (context, state) {
-                if (state is CounterIncrementedState) {
+                if (state is CounterEquatableIncrementState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Incremented!'),
                       duration: Duration(milliseconds: 300),
                     ),
                   );
-                } else if (state is CounterDecrementedState) {
+                } else if (state is CounterEquatableDecrementState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Decremented!'),
@@ -70,19 +70,18 @@ class CubitCounterScreen extends StatelessWidget {
               children: [
                 FloatingActionButton(
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
+                    BlocProvider.of<CounterEquatableCubit>(context).decrement();
                   },
                   tooltip: 'Decrement',
-                  heroTag: "$title decrement",
+                    heroTag: "$title decrement",
                   child: const Icon(Icons.remove),
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    // BlocProvider.of<CounterCubit>(context).increment();
-                    context.read<CounterCubit>().increment();
+                    BlocProvider.of<CounterEquatableCubit>(context).increment();
                   },
                   tooltip: 'Increment',
-                  heroTag: "$title increment",
+                    heroTag: "$title increment",
                   child: const Icon(Icons.add),
                 )
               ],
