@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterbloccomplete/core/constants/enums.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterequatable/counterequatable_cubit.dart';
+import 'package:flutterbloccomplete/features/cubit_internet/presentation/cubit/internet_cubit.dart';
 
 class CubitCounterEquatableScreen extends StatelessWidget {
   final String title;
@@ -20,6 +22,30 @@ class CubitCounterEquatableScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocConsumer<InternetCubit, InternetState>(
+                listener: (context, state) {
+              if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.mobile) {
+                BlocProvider.of<CounterEquatableCubit>(context).decrement();
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.wifi) {
+                BlocProvider.of<CounterEquatableCubit>(context).increment();
+              }
+            }, builder: (context, state) {
+              if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.mobile) {
+                return const Text('Mobile');
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.wifi) {
+                return const Text('Wi-fi');
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.other) {
+                return const Text('Other');
+              } else if (state is InternetDisconnectedState) {
+                return const Text('Disconnected');
+              }
+              return const CircularProgressIndicator.adaptive();
+            }),
             const Text(
               'You have pushed the button this many times:',
             ),
