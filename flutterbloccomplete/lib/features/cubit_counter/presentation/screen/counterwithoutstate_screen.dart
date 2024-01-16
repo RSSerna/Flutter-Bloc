@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterbloccomplete/core/constants/enums.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterwithoutstate/counterwithoutstate_cubit.dart';
+import 'package:flutterbloccomplete/features/cubit_internet/presentation/cubit/internet_cubit.dart';
 
 class CubitCounterWithOurStateScreen extends StatelessWidget {
   final String title;
@@ -20,11 +22,27 @@ class CubitCounterWithOurStateScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(
+                builder: (context, state) {
+              if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.mobile) {
+                return const Text('Mobile');
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.wifi) {
+                return const Text('Wi-fi');
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.other) {
+                return const Text('Other');
+              } else if (state is InternetDisconnectedState) {
+                return const Text('Disconnected');
+              }
+              return const CircularProgressIndicator.adaptive();
+            }),
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocConsumer<CounterWithOutStateCubit, int>(
-              listenWhen: (previous, current) {
+            BlocBuilder<CounterWithOutStateCubit, int>(
+              buildWhen: (previous, current) {
                 if (previous < current) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -44,7 +62,6 @@ class CubitCounterWithOurStateScreen extends StatelessWidget {
                 }
                 return false;
               },
-              listener: (context, state) {},
               builder: (context, state) {
                 if (state < 0) {
                   return Text(
@@ -69,29 +86,29 @@ class CubitCounterWithOurStateScreen extends StatelessWidget {
                 }
               },
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<CounterWithOutStateCubit>(context)
-                        .decrement();
-                  },
-                  tooltip: 'Decrement',
-                  heroTag: "$title decrement",
-                  child: const Icon(Icons.remove),
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<CounterWithOutStateCubit>(context)
-                        .increment();
-                  },
-                  tooltip: 'Increment',
-                  heroTag: "$title increment",
-                  child: const Icon(Icons.add),
-                )
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     FloatingActionButton(
+            //       onPressed: () {
+            //         BlocProvider.of<CounterWithOutStateCubit>(context)
+            //             .decrement();
+            //       },
+            //       tooltip: 'Decrement',
+            //       heroTag: "$title decrement",
+            //       child: const Icon(Icons.remove),
+            //     ),
+            //     FloatingActionButton(
+            //       onPressed: () {
+            //         BlocProvider.of<CounterWithOutStateCubit>(context)
+            //             .increment();
+            //       },
+            //       tooltip: 'Increment',
+            //       heroTag: "$title increment",
+            //       child: const Icon(Icons.add),
+            //     )
+            //   ],
+            // )
           ],
         ),
       ),

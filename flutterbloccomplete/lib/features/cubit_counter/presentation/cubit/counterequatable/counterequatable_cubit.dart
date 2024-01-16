@@ -9,4 +9,9 @@ class CounterEquatableCubit extends Cubit<CounterEquatableState> {
       emit(CounterEquatableIncrementState(counterValue: state.counterValue + 1));
   void decrement() =>
       emit(CounterEquatableDecrementState(counterValue: state.counterValue - 1));
+      @override
+  Future<void> close() {
+    print('Equatable Cubit Closed');
+    return super.close();
+  }
 }

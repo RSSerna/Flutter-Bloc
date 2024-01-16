@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterbloccomplete/core/di/injection_container.dart';
 import 'package:flutterbloccomplete/core/router/app_routers.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterequatable/counterequatable_cubit.dart';
+import 'package:flutterbloccomplete/features/cubit_internet/presentation/cubit/internet_cubit.dart';
 
 class AppState extends StatelessWidget {
   final InjectionContainerImpl injectionContainerImpl;
@@ -14,6 +15,8 @@ class AppState extends StatelessWidget {
     return MultiBlocProvider(providers: [
       BlocProvider<CounterEquatableCubit>(
           create: (_) => injectionContainerImpl.sl<CounterEquatableCubit>()),
+      BlocProvider<InternetCubit>(
+          create: (_) => injectionContainerImpl.sl<InternetCubit>()),
     ], child: const MyApp());
   }
 }

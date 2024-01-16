@@ -41,7 +41,7 @@ class _HomeScreenView extends StatelessWidget {
             location: RouterPaths.counterCubitEquatableSecond),
         CustomListTile(
             title: 'Cubit Counter Sin State',
-            subTitle: 'Un uso simple de un Cubit que no tiene clase State',
+            subTitle: 'Un uso simple de un Cubit que no tiene clase State Funcionando con el Internet Cubit',
             location: RouterPaths.counterCubitWithOutState),
         CustomListTile(
             title: 'Cubit Counter Sin State Second',

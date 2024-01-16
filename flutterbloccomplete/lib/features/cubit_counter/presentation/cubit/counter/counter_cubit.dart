@@ -8,4 +8,10 @@ class CounterCubit extends Cubit<CounterState> {
       emit(CounterIncrementedState(counterValue: state.counterValue + 1));
   void decrement() =>
       emit(CounterDecrementedState(counterValue: state.counterValue - 1));
+      
+  @override
+  Future<void> close() {
+    print('Counter Closed');
+    return super.close();
+  }
 }

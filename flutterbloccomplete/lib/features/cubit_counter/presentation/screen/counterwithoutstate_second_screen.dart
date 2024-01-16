@@ -23,8 +23,8 @@ class CubitCounterWithOurStateSecondScreen extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocConsumer<CounterWithOutStateCubit, int>(
-              listenWhen: (previous, current) {
+            BlocBuilder<CounterWithOutStateCubit, int>(
+              buildWhen: (previous, current) {
                 if (previous < current) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -44,7 +44,6 @@ class CubitCounterWithOurStateSecondScreen extends StatelessWidget {
                 }
                 return false;
               },
-              listener: (context, state) {},
               builder: (context, state) {
                 if (state < 0) {
                   return Text(
