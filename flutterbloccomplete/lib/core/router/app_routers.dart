@@ -8,7 +8,6 @@ import 'package:flutterbloccomplete/core/di/injection_container.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterwithoutstate/counterwithoutstate_cubit.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counter/counter_cubit.dart';
 
-
 final router = GoRouter(initialLocation: RouterPaths.home, routes: [
   GoRoute(
     path: RouterPaths.home,
@@ -50,9 +49,8 @@ final router = GoRouter(initialLocation: RouterPaths.home, routes: [
   ),
   GoRoute(
     path: RouterPaths.counterCubitWithOutState,
-    builder: (context, state) => BlocProvider(
-      create: (context) =>
-          InjectionContainerImpl().sl<CounterWithOutStateCubit>(),
+    builder: (context, state) => BlocProvider.value(
+      value: InjectionContainerImpl().sl<CounterWithOutStateCubit>(),
       child: const CubitCounterWithOurStateScreen(
         title: 'Cubit Counter With Out State',
         colorAppbar: Colors.amber,
@@ -61,9 +59,8 @@ final router = GoRouter(initialLocation: RouterPaths.home, routes: [
   ),
   GoRoute(
     path: RouterPaths.counterCubitWithOutStateSecond,
-    builder: (context, state) => BlocProvider(
-      create: (context) =>
-          InjectionContainerImpl().sl<CounterWithOutStateCubit>(),
+    builder: (context, state) => BlocProvider.value(
+      value: InjectionContainerImpl().sl<CounterWithOutStateCubit>(),
       child: const CubitCounterWithOurStateSecondScreen(
         title: 'Cubit Counter With Out State',
         colorAppbar: Colors.blueAccent,
