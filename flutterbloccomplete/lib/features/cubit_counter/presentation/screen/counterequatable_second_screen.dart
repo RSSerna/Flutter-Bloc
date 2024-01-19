@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterbloccomplete/core/constants/enums.dart';
+import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counter/counter_cubit.dart';
 import 'package:flutterbloccomplete/features/cubit_counter/presentation/cubit/counterequatable/counterequatable_cubit.dart';
+import 'package:flutterbloccomplete/features/cubit_internet/presentation/cubit/internet_cubit.dart';
 
 class CubitCounterEquatableSecondScreen extends StatelessWidget {
   final String title;
@@ -20,6 +23,22 @@ class CubitCounterEquatableSecondScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(
+                builder: (internetCubitContext, state) {
+              if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.mobile) {
+                return const Text('Mobile');
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.wifi) {
+                return const Text('Wi-fi');
+              } else if (state is InternetConnectedState &&
+                  state.connectionType == ConnectionType.other) {
+                return const Text('Other');
+              } else if (state is InternetDisconnectedState) {
+                return const Text('Disconnected');
+              }
+              return const CircularProgressIndicator.adaptive();
+            }),
             const Text(
               'You have pushed the button this many times:',
             ),
@@ -65,23 +84,52 @@ class CubitCounterEquatableSecondScreen extends StatelessWidget {
                 }
               },
             ),
+            const SizedBox(
+              height: 24,
+            ),
+            Builder(builder: (builderContext) {
+              final counterState = builderContext.watch<CounterCubit>().state;
+              final internetState = builderContext.watch<InternetCubit>().state;
+              if (internetState is InternetConnectedState &&
+                  internetState.connectionType == ConnectionType.mobile) {
+                return Text(
+                    'Counter: ${counterState.counterValue} Internet: Mobile');
+              } else if (internetState is InternetConnectedState &&
+                  internetState.connectionType == ConnectionType.wifi) {
+                return Text(
+                    'Counter: ${counterState.counterValue} Internet: Wi-Fi');
+              } else if (internetState is InternetConnectedState &&
+                  internetState.connectionType == ConnectionType.other) {
+                return Text(
+                    'Counter: ${counterState.counterValue} Internet: Other');
+              } else {
+                return Text(
+                    'Counter: ${counterState.counterValue} Internet: Disconnected');
+              }
+            }),
+            const SizedBox(
+              height: 24,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
                   onPressed: () {
-                    BlocProvider.of<CounterEquatableCubit>(context).decrement();
+                    BlocProvider.of<CounterEquatableCubit>(context,
+                            listen: false)
+                        .decrement();
                   },
                   tooltip: 'Decrement',
-                    heroTag: "$title decrement",
+                  heroTag: "$title decrement",
                   child: const Icon(Icons.remove),
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    BlocProvider.of<CounterEquatableCubit>(context).increment();
+                    // BlocProvider.of<CounterEquatableCubit>(context).increment();
+                    context.read<CounterEquatableCubit>().increment();
                   },
                   tooltip: 'Increment',
-                    heroTag: "$title increment",
+                  heroTag: "$title increment",
                   child: const Icon(Icons.add),
                 )
               ],

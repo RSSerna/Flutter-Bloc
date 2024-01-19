@@ -33,15 +33,15 @@ class _HomeScreenView extends StatelessWidget {
             location: RouterPaths.counterCubitSecond),
         CustomListTile(
             title: 'Cubit Counter Equatable',
-            subTitle: 'Un uso simple de un Cubit con Equatable',
+            subTitle: 'Un uso simple de un Cubit con Equatable, InternetCubit por BlocListener',
             location: RouterPaths.counterCubitEquatable),
         CustomListTile(
             title: 'Cubit Counter Equatable Second',
-            subTitle: 'Mismo BLoC entregado desde un provider del Material App',
+            subTitle: 'Mismo BLoC entregado desde un provider del Material App, InternetCubit con context.watch',
             location: RouterPaths.counterCubitEquatableSecond),
         CustomListTile(
             title: 'Cubit Counter Sin State',
-            subTitle: 'Un uso simple de un Cubit que no tiene clase State Funcionando con el Internet Cubit',
+            subTitle: 'Cubit que no tiene clase State suscrito al el Internet Cubit',
             location: RouterPaths.counterCubitWithOutState),
         CustomListTile(
             title: 'Cubit Counter Sin State Second',

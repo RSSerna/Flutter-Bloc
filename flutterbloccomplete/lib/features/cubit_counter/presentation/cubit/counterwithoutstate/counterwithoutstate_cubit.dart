@@ -8,7 +8,7 @@ class CounterWithOutStateCubit extends Cubit<int> {
   final InternetCubit internetCubit;
   late StreamSubscription internetStreamSubscription;
   CounterWithOutStateCubit({required this.internetCubit}) : super(1) {
-    // monitorInternetCubit();
+    monitorInternetCubit();
   }
 
   void monitorInternetCubit() {
@@ -26,10 +26,4 @@ class CounterWithOutStateCubit extends Cubit<int> {
   void increment() => emit(state + 1);
 
   void decrement() => emit(state - 1);
-  @override
-  Future<void> close() {
-    print("WithoutState Closed");
-    // internetStreamSubscription.cancel();
-    return super.close();
-  }
 }
